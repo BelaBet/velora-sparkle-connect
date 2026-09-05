@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
 function Descobrir() {
   return (
     <AppShell activeTab="Descobrir" activeBottom="Descobrir">
-      <div className="px-4 pt-4 lg:mx-auto lg:max-w-[560px] lg:px-0 lg:pt-10">
+      <div className="px-4 pt-4 lg:mx-auto lg:max-w-[440px] lg:px-0 lg:pt-10">
         <DiscoverCard
           profile={{
             photo: juliana,
