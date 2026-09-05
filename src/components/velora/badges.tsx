@@ -7,9 +7,9 @@ function Chip({
   children,
   className,
 }: {
-  icon?: ReactNode;
+  icon?: ReactNode | undefined;
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }) {
   return (
     <span
@@ -25,25 +25,25 @@ function Chip({
   );
 }
 
-export const VerifiedBadge = ({ className }: { className?: string }) => (
+export const VerifiedBadge = ({ className }: { className?: string | undefined }) => (
   <Chip className={className} icon={<IconCheck size={13} className="text-champagne" />}>
     Identidade verificada
   </Chip>
 );
 
-export const LivenessBadge = ({ className }: { className?: string }) => (
+export const LivenessBadge = ({ className }: { className?: string | undefined }) => (
   <Chip className={className} icon={<IconLiveness size={13} className="text-champagne" />}>
     Presença verificada
   </Chip>
 );
 
-export const TrustBadge = ({ className }: { className?: string }) => (
+export const TrustBadge = ({ className }: { className?: string | undefined }) => (
   <Chip className={className} icon={<IconSpark size={13} className="text-champagne" />}>
     Perfil confiável
   </Chip>
 );
 
-export const PrivacyIndicator = ({ className }: { className?: string }) => (
+export const PrivacyIndicator = ({ className }: { className?: string | undefined }) => (
   <Chip className={className} icon={<IconPrivacy size={13} className="text-champagne-soft" />}>
     Modo discreto
   </Chip>
@@ -53,8 +53,8 @@ export const MembershipBadge = ({
   label = "Velora Black",
   className,
 }: {
-  label?: string;
-  className?: string;
+  label?: string | undefined;
+  className?: string | undefined;
 }) => (
   <span
     className={cn(

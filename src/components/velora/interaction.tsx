@@ -11,9 +11,9 @@ function CircleAction({
 }: {
   children: ReactNode;
   label: string;
-  onClick?: () => void;
-  className?: string;
-  size?: "sm" | "md";
+  onClick?: (() => void) | undefined;
+  className?: string | undefined;
+  size?: "sm" | "md" | undefined;
 }) {
   return (
     <button
@@ -32,7 +32,7 @@ function CircleAction({
   );
 }
 
-export function InterestButton({ onInterest }: { onInterest?: () => void }) {
+export function InterestButton({ onInterest }: { onInterest?: (() => void) | undefined }) {
   const [active, setActive] = useState(false);
   const [pulse, setPulse] = useState(0);
 
@@ -53,19 +53,19 @@ export function InterestButton({ onInterest }: { onInterest?: () => void }) {
   );
 }
 
-export const PassButton = ({ onPass }: { onPass?: () => void }) => (
+export const PassButton = ({ onPass }: { onPass?: (() => void) | undefined }) => (
   <CircleAction label="Passar" onClick={onPass}>
     <IconPass size={20} />
   </CircleAction>
 );
 
-export const SaveButton = ({ onSave }: { onSave?: () => void }) => (
+export const SaveButton = ({ onSave }: { onSave?: (() => void) | undefined }) => (
   <CircleAction label="Salvar" size="sm" onClick={onSave}>
     <IconSave size={16} />
   </CircleAction>
 );
 
-export function GhostAction({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
+export function GhostAction({ children, onClick }: { children: ReactNode; onClick?: (() => void) | undefined }) {
   return (
     <button
       type="button"
