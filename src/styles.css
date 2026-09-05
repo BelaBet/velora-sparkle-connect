@@ -56,17 +56,18 @@
   --color-champagne: var(--champagne);
   --color-champagne-soft: var(--champagne-soft);
 
-  /* Spacing scale (4 -> 96) */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 40px;
-  --spacing-2xl: 64px;
-  --spacing-3xl: 96px;
 }
 
 :root {
+  /* Spacing scale (4 -> 96) — Velora tokens, alias of the Tailwind scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+
   /* Base palette */
   --obsidian: oklch(0.145 0 0);
   --graphite: oklch(0.185 0 0);
