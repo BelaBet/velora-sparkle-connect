@@ -12,7 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConexoesRouteImport } from './routes/conexoes'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as ExperienciasRouteImport } from './routes/experiencias'
 import { Route as MensagensRouteImport } from './routes/mensagens'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as SegurancaRouteImport } from './routes/seguranca'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +33,29 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExperienciasRoute = ExperienciasRouteImport.update({
+  id: '/experiencias',
+  path: '/experiencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MensagensRoute = MensagensRouteImport.update({
   id: '/mensagens',
   path: '/mensagens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PremiumRoute = PremiumRouteImport.update({
+  id: '/premium',
+  path: '/premium',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SegurancaRoute = SegurancaRouteImport.update({
+  id: '/seguranca',
+  path: '/seguranca',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -39,34 +63,75 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
+  '/experiencias': typeof ExperienciasRoute
   '/mensagens': typeof MensagensRoute
+  '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/seguranca': typeof SegurancaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
+  '/experiencias': typeof ExperienciasRoute
   '/mensagens': typeof MensagensRoute
+  '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/seguranca': typeof SegurancaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
+  '/experiencias': typeof ExperienciasRoute
   '/mensagens': typeof MensagensRoute
+  '/perfil': typeof PerfilRoute
+  '/premium': typeof PremiumRoute
+  '/seguranca': typeof SegurancaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/conexoes' | '/design-system' | '/mensagens'
+  fullPaths:
+    | '/'
+    | '/conexoes'
+    | '/design-system'
+    | '/experiencias'
+    | '/mensagens'
+    | '/perfil'
+    | '/premium'
+    | '/seguranca'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/conexoes' | '/design-system' | '/mensagens'
-  id: '__root__' | '/' | '/conexoes' | '/design-system' | '/mensagens'
+  to:
+    | '/'
+    | '/conexoes'
+    | '/design-system'
+    | '/experiencias'
+    | '/mensagens'
+    | '/perfil'
+    | '/premium'
+    | '/seguranca'
+  id:
+    | '__root__'
+    | '/'
+    | '/conexoes'
+    | '/design-system'
+    | '/experiencias'
+    | '/mensagens'
+    | '/perfil'
+    | '/premium'
+    | '/seguranca'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConexoesRoute: typeof ConexoesRoute
   DesignSystemRoute: typeof DesignSystemRoute
+  ExperienciasRoute: typeof ExperienciasRoute
   MensagensRoute: typeof MensagensRoute
+  PerfilRoute: typeof PerfilRoute
+  PremiumRoute: typeof PremiumRoute
+  SegurancaRoute: typeof SegurancaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,11 +157,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/experiencias': {
+      id: '/experiencias'
+      path: '/experiencias'
+      fullPath: '/experiencias'
+      preLoaderRoute: typeof ExperienciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mensagens': {
       id: '/mensagens'
       path: '/mensagens'
       fullPath: '/mensagens'
       preLoaderRoute: typeof MensagensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/seguranca': {
+      id: '/seguranca'
+      path: '/seguranca'
+      fullPath: '/seguranca'
+      preLoaderRoute: typeof SegurancaRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -106,7 +199,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConexoesRoute: ConexoesRoute,
   DesignSystemRoute: DesignSystemRoute,
+  ExperienciasRoute: ExperienciasRoute,
   MensagensRoute: MensagensRoute,
+  PerfilRoute: PerfilRoute,
+  PremiumRoute: PremiumRoute,
+  SegurancaRoute: SegurancaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
