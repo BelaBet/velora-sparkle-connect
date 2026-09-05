@@ -23,7 +23,9 @@ export function ExperienceCard({ image, title, venue, city, detail }: Experience
         />
         <div className="absolute inset-0 scrim-bottom opacity-70" />
         <MembershipBadge label="Velora Experience" className="absolute left-5 top-5" />
-        <SaveButton />
+        <div className="absolute right-5 top-5">
+          <SaveButton />
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 p-6">
