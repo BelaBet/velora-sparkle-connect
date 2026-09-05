@@ -11,9 +11,9 @@ export function ScreenIntro({
   description: string;
 }) {
   return (
-    <div className="px-6 pt-8">
+    <div className="px-6 pt-8 lg:px-10 lg:pt-10">
       <p className="text-eyebrow">{eyebrow}</p>
-      <h1 className="mt-3 font-display text-4xl leading-tight text-ivory">{title}</h1>
+      <h1 className="mt-3 font-display text-4xl lg:text-5xl leading-tight text-ivory">{title}</h1>
       <p className="mt-3 max-w-[22rem] text-[14px] leading-relaxed text-muted-foreground">
         {description}
       </p>
@@ -22,7 +22,7 @@ export function ScreenIntro({
 }
 
 export function ScreenList({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-3 px-4 py-8">{children}</div>;
+  return <div className="grid gap-3 px-4 py-8 lg:grid-cols-2 lg:gap-4 lg:px-10">{children}</div>;
 }
 
 export function ListRow({
