@@ -1,0 +1,61 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { AppShell } from "@/components/velora/app-shell";
+import { ScreenIntro } from "@/components/velora/screen";
+import { MembershipBadge } from "@/components/velora/badges";
+import { GhostAction } from "@/components/velora/interaction";
+import { IconCheck } from "@/components/velora/icons";
+
+export const Route = createFileRoute("/premium")({
+  head: () => ({
+    meta: [
+      { title: "Velora Black — Assinatura" },
+      {
+        name: "description",
+        content: "Velora Black: curadoria dedicada, concierge de experiências e privacidade ampliada.",
+      },
+      { property: "og:title", content: "Velora Black" },
+      { property: "og:description", content: "Curadoria dedicada, concierge e privacidade ampliada." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Premium,
+});
+
+const beneficios = [
+  "Curadoria dedicada de perfis",
+  "Concierge de experiências",
+  "Modo discreto avançado",
+  "Prioridade em reservas parceiras",
+];
+
+function Premium() {
+  return (
+    <AppShell activeTab="Descobrir" activeBottom="Premium">
+      <ScreenIntro
+        eyebrow="Assinatura"
+        title="Velora Black"
+        description="Para quem quer menos volume e mais precisão. Um círculo menor, escolhido com cuidado."
+      />
+      <div className="px-4 py-8">
+        <div className="rounded-xl surface-card p-7">
+          <MembershipBadge />
+          <p className="mt-6 font-display text-4xl text-ivory">
+            R$ 390<span className="text-base text-muted-foreground"> /mês</span>
+          </p>
+          <ul className="mt-7 space-y-4">
+            {beneficios.map((b) => (
+              <li key={b} className="flex items-start gap-3 text-[14px] text-pearl/85">
+                <IconCheck size={17} className="mt-0.5 shrink-0 text-champagne" />
+                {b}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-9">
+            <GhostAction>Solicitar convite</GhostAction>
+          </div>
+        </div>
+      </div>
+    </AppShell>
+  );
+}
