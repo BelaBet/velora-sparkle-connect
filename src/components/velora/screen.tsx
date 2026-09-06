@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 
 /** Cabeçalho editorial padrão das telas internas. */
 export function ScreenIntro({
@@ -30,14 +31,18 @@ export function ListRow({
   title,
   meta,
   trailing,
+  to,
+  search,
 }: {
   photo?: string | undefined;
   title: string;
   meta: string;
   trailing?: ReactNode;
+  to?: string | undefined;
+  search?: Record<string, string> | undefined;
 }) {
-  return (
-    <div className="flex items-center gap-4 rounded-lg surface-glass p-4">
+  const content = (
+    <>
       {photo ? (
         <img
           src={photo}
@@ -57,6 +62,20 @@ export function ListRow({
         <p className="truncate text-[13px] text-muted-foreground">{meta}</p>
       </div>
       {trailing}
-    </div>
+    </>
   );
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        search={search}
+        className="flex items-center gap-4 rounded-lg surface-glass p-4 transition-velora hover:border-champagne/35"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className="flex items-center gap-4 rounded-lg surface-glass p-4">{content}</div>;
 }

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { AppShell } from "@/components/velora/app-shell";
 import { ScreenIntro } from "@/components/velora/screen";
 import { MembershipBadge } from "@/components/velora/badges";
@@ -11,10 +13,14 @@ export const Route = createFileRoute("/premium")({
       { title: "Velora Black — Assinatura" },
       {
         name: "description",
-        content: "Velora Black: curadoria dedicada, concierge de experiências e privacidade ampliada.",
+        content:
+          "Velora Black: curadoria dedicada, concierge de experiências e privacidade ampliada.",
       },
       { property: "og:title", content: "Velora Black" },
-      { property: "og:description", content: "Curadoria dedicada, concierge e privacidade ampliada." },
+      {
+        property: "og:description",
+        content: "Curadoria dedicada, concierge e privacidade ampliada.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -30,6 +36,8 @@ const beneficios = [
 ];
 
 function Premium() {
+  const [requested, setRequested] = useState(false);
+
   return (
     <AppShell activeTab="Descobrir" activeBottom="Premium">
       <ScreenIntro
@@ -52,7 +60,17 @@ function Premium() {
             ))}
           </ul>
           <div className="mt-9">
-            <GhostAction>Solicitar convite</GhostAction>
+            <GhostAction
+              onClick={() => {
+                if (requested) return;
+                setRequested(true);
+                toast("Pedido de convite enviado", {
+                  description: "Nossa equipe entrará em contato em até 48 horas.",
+                });
+              }}
+            >
+              {requested ? "Convite solicitado" : "Solicitar convite"}
+            </GhostAction>
           </div>
         </div>
       </div>
