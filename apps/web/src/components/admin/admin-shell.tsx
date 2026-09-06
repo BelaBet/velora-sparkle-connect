@@ -9,6 +9,7 @@ const navItems = [
   { label: "Perfis", to: "/admin/perfis" },
   { label: "Verificações", to: "/admin/verificacoes" },
   { label: "Relatórios", to: "/admin/relatorios" },
+  { label: "Experiências", to: "/admin/experiencias" },
 ];
 
 /** Moldura do painel administrativo — sidebar no desktop, tabs no mobile. */

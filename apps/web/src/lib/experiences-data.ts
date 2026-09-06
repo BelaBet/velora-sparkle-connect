@@ -7,6 +7,16 @@ export type ExperienceRecord = {
   venue: string;
   city: string;
   detail: string;
+  imageUrl: string | null;
+};
+
+type ExperienceRow = {
+  id: string;
+  title: string;
+  venue: string;
+  city: string;
+  detail: string;
+  image_url: string | null;
 };
 
 export function useExperiences() {
@@ -15,10 +25,17 @@ export function useExperiences() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select("id, title, venue, city, detail")
+        .select("id, title, venue, city, detail, image_url")
         .order("created_at", { ascending: true });
       if (error) throw error;
-      return data as ExperienceRecord[];
+      return (data as ExperienceRow[]).map((r): ExperienceRecord => ({
+        id: r.id,
+        title: r.title,
+        venue: r.venue,
+        city: r.city,
+        detail: r.detail,
+        imageUrl: r.image_url,
+      }));
     },
   });
 }
