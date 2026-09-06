@@ -675,23 +675,6 @@ hotel cinco estrelas + private club + dating premium + concierge digital.
 
 Essa é a diferença que pode criar uma marca realmente forte.
 
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://velora-sparkle-connect.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/aa18b926-a958-4a61-969a-b8ec93513ee5).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-> **Nota**: desde que o repositório virou um monorepo (`apps/` + `packages/`), o
-> editor visual do Lovable — que espera o app na raiz do repo — provavelmente
-> não consegue mais sincronizar/buildar este projeto. O desenvolvimento
-> passou a ser feito por aqui (Git/Claude Code) em vez do editor Lovable.
-
 ## Estrutura do repositório
 
 ```
