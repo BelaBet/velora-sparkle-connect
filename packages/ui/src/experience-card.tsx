@@ -10,11 +10,22 @@ export type ExperienceCardProps = {
   venue: string;
   city: string;
   detail: string;
+  reserved?: boolean | undefined;
+  onReserve?: (() => void) | undefined;
 };
 
-export function ExperienceCard({ image, title, venue, city, detail }: ExperienceCardProps) {
+export function ExperienceCard({
+  image,
+  title,
+  venue,
+  city,
+  detail,
+  reserved: reservedProp,
+  onReserve,
+}: ExperienceCardProps) {
   const [saved, setSaved] = useState(false);
-  const [reserved, setReserved] = useState(false);
+  const [reservedState, setReservedState] = useState(false);
+  const reserved = reservedProp ?? reservedState;
 
   return (
     <article className="overflow-hidden rounded-xl surface-card">
@@ -50,7 +61,11 @@ export function ExperienceCard({ image, title, venue, city, detail }: Experience
         <GhostAction
           onClick={() => {
             if (reserved) return;
-            setReserved(true);
+            if (onReserve) {
+              onReserve();
+              return;
+            }
+            setReservedState(true);
             toast("Reserva solicitada", {
               description: "O concierge Velora entrará em contato para confirmar os detalhes.",
             });
