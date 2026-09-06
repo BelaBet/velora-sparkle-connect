@@ -696,11 +696,13 @@ processa o TypeScript/CSS direto da fonte.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Este é um workspace [Bun](https://bun.sh) (veja `bun.lock` e `workspace:*` em
+`packages/ui`/`packages/design-tokens`) — `npm install`/`npm run dev` não
+resolvem os pacotes do monorepo corretamente. Use Bun:
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```

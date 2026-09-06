@@ -45,10 +45,11 @@ export type OwnProfile = {
 };
 
 export async function getOwnProfile(): Promise<OwnProfile | null> {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("member_profiles")
     .select("id, name, age, city, bio, interests, photo_url, verified")
     .maybeSingle();
+  if (error) throw error;
   if (!data) return null;
   return {
     id: data.id,
@@ -65,7 +66,9 @@ export async function getOwnProfile(): Promise<OwnProfile | null> {
 export function useOwnProfileId(): string | null {
   const [id, setId] = useState<string | null>(null);
   useEffect(() => {
-    void getOwnProfile().then((p) => setId(p?.id ?? null));
+    void getOwnProfile()
+      .then((p) => setId(p?.id ?? null))
+      .catch(() => setId(null));
   }, []);
   return id;
 }
@@ -82,8 +85,18 @@ export async function updateOwnProfileDetails(
   return null;
 }
 
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5 MB — mesmo limite configurado no bucket
+const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 /** Envia a foto pro Storage (pasta = uid do usuário) e grava a URL pública no perfil. */
 export async function uploadOwnPhoto(file: File): Promise<string | null> {
+  if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+    return "Use uma foto em JPEG, PNG ou WEBP.";
+  }
+  if (file.size > MAX_PHOTO_BYTES) {
+    return "A foto precisa ter no máximo 5 MB.";
+  }
+
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData.user) return userError?.message ?? "Não autenticado.";
 
