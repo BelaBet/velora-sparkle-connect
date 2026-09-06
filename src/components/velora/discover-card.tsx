@@ -15,7 +15,13 @@ export type DiscoverProfile = {
 /**
  * DiscoverCard — a fotografia domina; identidade, informação e ação sobre o gradiente.
  */
-export function DiscoverCard({ profile }: { profile: DiscoverProfile }) {
+export function DiscoverCard({
+  profile,
+  onAbout,
+}: {
+  profile: DiscoverProfile;
+  onAbout?: (() => void) | undefined;
+}) {
   const [photoIndex] = useState(0);
 
   return (
@@ -48,8 +54,7 @@ export function DiscoverCard({ profile }: { profile: DiscoverProfile }) {
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 text-[2rem] font-semibold leading-none text-ivory">
-              {profile.name},{" "}
-              <span className="font-light text-ivory/90">{profile.age}</span>
+              {profile.name}, <span className="font-light text-ivory/90">{profile.age}</span>
               <VerifiedSeal size={20} className="text-champagne" />
             </h2>
 
@@ -70,6 +75,7 @@ export function DiscoverCard({ profile }: { profile: DiscoverProfile }) {
 
           <button
             type="button"
+            onClick={onAbout}
             className="flex shrink-0 flex-col items-center gap-1 rounded-full surface-glass px-3 py-3 text-pearl transition-velora hover:text-champagne"
           >
             <IconInfo size={20} />

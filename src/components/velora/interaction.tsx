@@ -59,13 +59,25 @@ export const PassButton = ({ onPass }: { onPass?: (() => void) | undefined }) =>
   </CircleAction>
 );
 
-export const SaveButton = ({ onSave }: { onSave?: (() => void) | undefined }) => (
-  <CircleAction label="Salvar" size="sm" onClick={onSave}>
+export const SaveButton = ({
+  onSave,
+  className,
+}: {
+  onSave?: (() => void) | undefined;
+  className?: string | undefined;
+}) => (
+  <CircleAction label="Salvar" size="sm" onClick={onSave} className={className}>
     <IconSave size={16} />
   </CircleAction>
 );
 
-export function GhostAction({ children, onClick }: { children: ReactNode; onClick?: (() => void) | undefined }) {
+export function GhostAction({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick?: (() => void) | undefined;
+}) {
   return (
     <button
       type="button"

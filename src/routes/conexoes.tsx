@@ -2,9 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/velora/app-shell";
 import { ScreenIntro, ScreenList, ListRow } from "@/components/velora/screen";
 import { MembershipBadge } from "@/components/velora/badges";
-import juliana from "@/assets/discover-juliana.jpg";
-import rafael from "@/assets/profile-rafael.jpg";
-import ana from "@/assets/profile-juliana.jpg";
+import { connections } from "@/lib/velora-data";
 
 export const Route = createFileRoute("/conexoes")({
   head: () => ({
@@ -32,14 +30,17 @@ function Conexoes() {
         description="Só aparecem aqui as pessoas que demonstraram interesse mútuo. Nada é público."
       />
       <ScreenList>
-        <ListRow
-          photo={juliana}
-          title="Juliana, 29"
-          meta="Conexão hoje · São Paulo"
-          trailing={<MembershipBadge label="Nova" />}
-        />
-        <ListRow photo={rafael} title="Rafael, 34" meta="Conexão ontem · Jardins" />
-        <ListRow photo={ana} title="Marina, 31" meta="Conexão há 3 dias · Itaim" />
+        {connections.map((connection) => (
+          <ListRow
+            key={connection.id}
+            to="/mensagens"
+            search={{ with: connection.id }}
+            photo={connection.photo}
+            title={`${connection.name}, ${connection.age}`}
+            meta={connection.meta}
+            trailing={connection.isNew ? <MembershipBadge label="Nova" /> : undefined}
+          />
+        ))}
       </ScreenList>
     </AppShell>
   );
