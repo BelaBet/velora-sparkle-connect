@@ -687,6 +687,28 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 - **Stay in sync**: every change made in Lovable is committed straight to this repository.
 - **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
+> **Nota**: desde que o repositório virou um monorepo (`apps/` + `packages/`), o
+> editor visual do Lovable — que espera o app na raiz do repo — provavelmente
+> não consegue mais sincronizar/buildar este projeto. O desenvolvimento
+> passou a ser feito por aqui (Git/Claude Code) em vez do editor Lovable.
+
+## Estrutura do repositório
+
+```
+velora/
+├── apps/
+│   └── web/              → app principal (TanStack Start), inclui /admin
+├── packages/
+│   ├── ui/                → Velora UI — componentes visuais reutilizáveis
+│   └── design-tokens/     → cores, tipografia, espaçamento, motion (CSS)
+└── supabase/
+    └── migrations/        → schema versionado do backend
+```
+
+`packages/ui` e `packages/design-tokens` são consumidos por `apps/web` via
+workspace (`workspace:*`), sem precisar de build separado — o Vite do app
+processa o TypeScript/CSS direto da fonte.
+
 ## Development
 
 Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
