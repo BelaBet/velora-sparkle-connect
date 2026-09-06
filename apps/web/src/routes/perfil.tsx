@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppShell, VerifiedBadge, LivenessBadge, MembershipBadge, IconArrow } from "@velora/ui";
+import { RequireMember } from "@/components/auth/require-member";
+import { signOutMember } from "@/lib/member-auth";
 import juliana from "@/assets/discover-juliana.jpg";
 
 export const Route = createFileRoute("/perfil")({
@@ -21,13 +23,23 @@ export const Route = createFileRoute("/perfil")({
 
 const itens = [
   { label: "Fotos e apresentação", to: "/perfil" },
-  { label: "Verificações", to: "/seguranca" },
+  { label: "Verificação de identidade", to: "/verificacao" },
   { label: "Preferências de descoberta", to: "/" },
   { label: "Privacidade e discrição", to: "/seguranca" },
   { label: "Linguagem visual Velora", to: "/design-system" },
 ];
 
 function Perfil() {
+  return (
+    <RequireMember>
+      <PerfilContent />
+    </RequireMember>
+  );
+}
+
+function PerfilContent() {
+  const navigate = useNavigate();
+
   return (
     <AppShell activeTab="Descobrir" activeBottom="Perfil">
       <div className="relative aspect-[9/9] w-full overflow-hidden">
@@ -61,6 +73,17 @@ function Perfil() {
             </Link>
           </li>
         ))}
+        <li>
+          <button
+            type="button"
+            onClick={() => {
+              void signOutMember().then(() => navigate({ to: "/login" }));
+            }}
+            className="flex w-full items-center justify-between border-b border-border py-4 text-left text-[15px] text-destructive transition-velora hover:text-destructive/80"
+          >
+            Sair
+          </button>
+        </li>
       </ul>
     </AppShell>
   );

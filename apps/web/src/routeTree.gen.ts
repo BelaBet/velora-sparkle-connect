@@ -10,22 +10,38 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CadastroRouteImport } from './routes/cadastro'
+import { Route as CompletarPerfilRouteImport } from './routes/completar-perfil'
 import { Route as ConexoesRouteImport } from './routes/conexoes'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as ExperienciasRouteImport } from './routes/experiencias'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as MensagensRouteImport } from './routes/mensagens'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as SegurancaRouteImport } from './routes/seguranca'
+import { Route as VerificacaoRouteImport } from './routes/verificacao'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminPerfisRouteImport } from './routes/admin/perfis'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVerificacoesRouteImport } from './routes/admin/verificacoes'
+import { Route as MfaConfigurarRouteImport } from './routes/mfa/configurar'
+import { Route as MfaVerificarRouteImport } from './routes/mfa/verificar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompletarPerfilRoute = CompletarPerfilRouteImport.update({
+  id: '/completar-perfil',
+  path: '/completar-perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConexoesRoute = ConexoesRouteImport.update({
@@ -41,6 +57,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
 const ExperienciasRoute = ExperienciasRouteImport.update({
   id: '/experiencias',
   path: '/experiencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MensagensRoute = MensagensRouteImport.update({
@@ -61,6 +82,11 @@ const PremiumRoute = PremiumRouteImport.update({
 const SegurancaRoute = SegurancaRouteImport.update({
   id: '/seguranca',
   path: '/seguranca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerificacaoRoute = VerificacaoRouteImport.update({
+  id: '/verificacao',
+  path: '/verificacao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -88,114 +114,166 @@ const AdminVerificacoesRoute = AdminVerificacoesRouteImport.update({
   path: '/admin/verificacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MfaConfigurarRoute = MfaConfigurarRouteImport.update({
+  id: '/mfa/configurar',
+  path: '/mfa/configurar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MfaVerificarRoute = MfaVerificarRouteImport.update({
+  id: '/mfa/verificar',
+  path: '/mfa/verificar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
   '/experiencias': typeof ExperienciasRoute
+  '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/verificacao': typeof VerificacaoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/mfa/configurar': typeof MfaConfigurarRoute
+  '/mfa/verificar': typeof MfaVerificarRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
   '/experiencias': typeof ExperienciasRoute
+  '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/verificacao': typeof VerificacaoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/mfa/configurar': typeof MfaConfigurarRoute
+  '/mfa/verificar': typeof MfaVerificarRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
+  '/completar-perfil': typeof CompletarPerfilRoute
   '/conexoes': typeof ConexoesRoute
   '/design-system': typeof DesignSystemRoute
   '/experiencias': typeof ExperienciasRoute
+  '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/verificacao': typeof VerificacaoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
   '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/mfa/configurar': typeof MfaConfigurarRoute
+  '/mfa/verificar': typeof MfaVerificarRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cadastro'
+    | '/completar-perfil'
     | '/conexoes'
     | '/design-system'
     | '/experiencias'
+    | '/login'
     | '/mensagens'
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/verificacao'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
     | '/admin/verificacoes'
+    | '/mfa/configurar'
+    | '/mfa/verificar'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cadastro'
+    | '/completar-perfil'
     | '/conexoes'
     | '/design-system'
     | '/experiencias'
+    | '/login'
     | '/mensagens'
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/verificacao'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
     | '/admin/verificacoes'
+    | '/mfa/configurar'
+    | '/mfa/verificar'
     | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/cadastro'
+    | '/completar-perfil'
     | '/conexoes'
     | '/design-system'
     | '/experiencias'
+    | '/login'
     | '/mensagens'
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/verificacao'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
     | '/admin/verificacoes'
+    | '/mfa/configurar'
+    | '/mfa/verificar'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CadastroRoute: typeof CadastroRoute
+  CompletarPerfilRoute: typeof CompletarPerfilRoute
   ConexoesRoute: typeof ConexoesRoute
   DesignSystemRoute: typeof DesignSystemRoute
   ExperienciasRoute: typeof ExperienciasRoute
+  LoginRoute: typeof LoginRoute
   MensagensRoute: typeof MensagensRoute
   PerfilRoute: typeof PerfilRoute
   PremiumRoute: typeof PremiumRoute
   SegurancaRoute: typeof SegurancaRoute
+  VerificacaoRoute: typeof VerificacaoRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPerfisRoute: typeof AdminPerfisRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
   AdminVerificacoesRoute: typeof AdminVerificacoesRoute
+  MfaConfigurarRoute: typeof MfaConfigurarRoute
+  MfaVerificarRoute: typeof MfaVerificarRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -206,6 +284,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/completar-perfil': {
+      id: '/completar-perfil'
+      path: '/completar-perfil'
+      fullPath: '/completar-perfil'
+      preLoaderRoute: typeof CompletarPerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/conexoes': {
@@ -227,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/experiencias'
       fullPath: '/experiencias'
       preLoaderRoute: typeof ExperienciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mensagens': {
@@ -255,6 +354,13 @@ declare module '@tanstack/react-router' {
       path: '/seguranca'
       fullPath: '/seguranca'
       preLoaderRoute: typeof SegurancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verificacao': {
+      id: '/verificacao'
+      path: '/verificacao'
+      fullPath: '/verificacao'
+      preLoaderRoute: typeof VerificacaoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -292,22 +398,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVerificacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mfa/configurar': {
+      id: '/mfa/configurar'
+      path: '/mfa/configurar'
+      fullPath: '/mfa/configurar'
+      preLoaderRoute: typeof MfaConfigurarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mfa/verificar': {
+      id: '/mfa/verificar'
+      path: '/mfa/verificar'
+      fullPath: '/mfa/verificar'
+      preLoaderRoute: typeof MfaVerificarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CadastroRoute: CadastroRoute,
+  CompletarPerfilRoute: CompletarPerfilRoute,
   ConexoesRoute: ConexoesRoute,
   DesignSystemRoute: DesignSystemRoute,
   ExperienciasRoute: ExperienciasRoute,
+  LoginRoute: LoginRoute,
   MensagensRoute: MensagensRoute,
   PerfilRoute: PerfilRoute,
   PremiumRoute: PremiumRoute,
   SegurancaRoute: SegurancaRoute,
+  VerificacaoRoute: VerificacaoRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPerfisRoute: AdminPerfisRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,
   AdminVerificacoesRoute: AdminVerificacoesRoute,
+  MfaConfigurarRoute: MfaConfigurarRoute,
+  MfaVerificarRoute: MfaVerificarRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, ScreenIntro, ExperienceCard } from "@velora/ui";
+import { RequireMember } from "@/components/auth/require-member";
 import { experiences } from "@/lib/velora-data";
 
 export const Route = createFileRoute("/experiencias")({
@@ -25,24 +26,26 @@ export const Route = createFileRoute("/experiencias")({
 
 function Experiencias() {
   return (
-    <AppShell activeTab="Experiências" activeBottom="Descobrir">
-      <ScreenIntro
-        eyebrow="Curadoria"
-        title="Experiências"
-        description="Lugares escolhidos um a um. Reserva feita pelo concierge, com entrada discreta."
-      />
-      <div className="flex flex-col gap-5 px-4 py-8 lg:grid lg:grid-cols-2 lg:px-10">
-        {experiences.map((exp) => (
-          <ExperienceCard
-            key={exp.id}
-            image={exp.image}
-            title={exp.title}
-            venue={exp.venue}
-            city={exp.city}
-            detail={exp.detail}
-          />
-        ))}
-      </div>
-    </AppShell>
+    <RequireMember>
+      <AppShell activeTab="Experiências" activeBottom="Descobrir">
+        <ScreenIntro
+          eyebrow="Curadoria"
+          title="Experiências"
+          description="Lugares escolhidos um a um. Reserva feita pelo concierge, com entrada discreta."
+        />
+        <div className="flex flex-col gap-5 px-4 py-8 lg:grid lg:grid-cols-2 lg:px-10">
+          {experiences.map((exp) => (
+            <ExperienceCard
+              key={exp.id}
+              image={exp.image}
+              title={exp.title}
+              venue={exp.venue}
+              city={exp.city}
+              detail={exp.detail}
+            />
+          ))}
+        </div>
+      </AppShell>
+    </RequireMember>
   );
 }

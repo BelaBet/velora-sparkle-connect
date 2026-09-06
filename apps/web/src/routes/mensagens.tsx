@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppShell, ScreenIntro, ScreenList, ListRow, IconArrow, IconArrowRight } from "@velora/ui";
+import { RequireMember } from "@/components/auth/require-member";
 import { initialConversations, type Conversation } from "@/lib/velora-data";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,14 @@ function lastMessagePreview(conversation: Conversation) {
 }
 
 function Mensagens() {
+  return (
+    <RequireMember>
+      <MensagensContent />
+    </RequireMember>
+  );
+}
+
+function MensagensContent() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [conversations, setConversations] = useState(initialConversations);

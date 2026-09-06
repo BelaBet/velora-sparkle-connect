@@ -10,6 +10,7 @@ import {
   PrivacyIndicator,
   IconShield,
 } from "@velora/ui";
+import { RequireMember } from "@/components/auth/require-member";
 
 export const Route = createFileRoute("/seguranca")({
   head: () => ({
@@ -76,47 +77,49 @@ function Seguranca() {
   const [armed, setArmed] = useState<string | null>(null);
 
   return (
-    <AppShell activeTab="Descobrir" activeBottom="Segurança">
-      <ScreenIntro
-        eyebrow="Confiança"
-        title="Central de segurança"
-        description="Verificação de identidade, presença ao vivo e reputação — antes de qualquer encontro."
-      />
-      <div className="flex flex-wrap gap-2 px-6 pt-6">
-        <VerifiedBadge />
-        <LivenessBadge />
-        <TrustBadge />
-        <PrivacyIndicator />
-      </div>
-      <div className="flex flex-col gap-3 px-4 py-8">
-        {acoes.map((a) => {
-          const needsConfirm = a.confirmTwice && armed !== a.id;
-          return (
-            <button
-              key={a.id}
-              type="button"
-              onClick={() => {
-                if (needsConfirm) {
-                  setArmed(a.id);
-                  toast("Toque novamente para confirmar", { description: a.title });
-                  return;
-                }
-                setArmed(null);
-                a.onConfirm();
-              }}
-              className="flex items-start gap-4 rounded-lg surface-glass p-5 text-left transition-velora hover:border-champagne/35"
-            >
-              <IconShield size={20} className="mt-0.5 shrink-0 text-champagne" />
-              <span>
-                <span className="block text-[15px] text-ivory">{a.title}</span>
-                <span className="mt-1 block text-[13px] leading-relaxed text-muted-foreground">
-                  {armed === a.id ? "Toque novamente para confirmar." : a.meta}
+    <RequireMember>
+      <AppShell activeTab="Descobrir" activeBottom="Segurança">
+        <ScreenIntro
+          eyebrow="Confiança"
+          title="Central de segurança"
+          description="Verificação de identidade, presença ao vivo e reputação — antes de qualquer encontro."
+        />
+        <div className="flex flex-wrap gap-2 px-6 pt-6">
+          <VerifiedBadge />
+          <LivenessBadge />
+          <TrustBadge />
+          <PrivacyIndicator />
+        </div>
+        <div className="flex flex-col gap-3 px-4 py-8">
+          {acoes.map((a) => {
+            const needsConfirm = a.confirmTwice && armed !== a.id;
+            return (
+              <button
+                key={a.id}
+                type="button"
+                onClick={() => {
+                  if (needsConfirm) {
+                    setArmed(a.id);
+                    toast("Toque novamente para confirmar", { description: a.title });
+                    return;
+                  }
+                  setArmed(null);
+                  a.onConfirm();
+                }}
+                className="flex items-start gap-4 rounded-lg surface-glass p-5 text-left transition-velora hover:border-champagne/35"
+              >
+                <IconShield size={20} className="mt-0.5 shrink-0 text-champagne" />
+                <span>
+                  <span className="block text-[15px] text-ivory">{a.title}</span>
+                  <span className="mt-1 block text-[13px] leading-relaxed text-muted-foreground">
+                    {armed === a.id ? "Toque novamente para confirmar." : a.meta}
+                  </span>
                 </span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </AppShell>
+              </button>
+            );
+          })}
+        </div>
+      </AppShell>
+    </RequireMember>
   );
 }
