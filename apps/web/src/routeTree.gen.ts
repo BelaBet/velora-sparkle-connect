@@ -19,7 +19,9 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as MensagensRouteImport } from './routes/mensagens'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PremiumRouteImport } from './routes/premium'
+import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as SegurancaRouteImport } from './routes/seguranca'
+import { Route as TermosRouteImport } from './routes/termos'
 import { Route as VerificacaoRouteImport } from './routes/verificacao'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminExperienciasRouteImport } from './routes/admin/experiencias'
@@ -81,9 +83,19 @@ const PremiumRoute = PremiumRouteImport.update({
   path: '/premium',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadeRoute = PrivacidadeRouteImport.update({
+  id: '/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SegurancaRoute = SegurancaRouteImport.update({
   id: '/seguranca',
   path: '/seguranca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermosRoute = TermosRouteImport.update({
+  id: '/termos',
+  path: '/termos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VerificacaoRoute = VerificacaoRouteImport.update({
@@ -148,7 +160,9 @@ export interface FileRoutesByFullPath {
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/seguranca': typeof SegurancaRoute
+  '/termos': typeof TermosRoute
   '/verificacao': typeof VerificacaoRoute
   '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
@@ -171,7 +185,9 @@ export interface FileRoutesByTo {
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/seguranca': typeof SegurancaRoute
+  '/termos': typeof TermosRoute
   '/verificacao': typeof VerificacaoRoute
   '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
@@ -195,7 +211,9 @@ export interface FileRoutesById {
   '/mensagens': typeof MensagensRoute
   '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
+  '/privacidade': typeof PrivacidadeRoute
   '/seguranca': typeof SegurancaRoute
+  '/termos': typeof TermosRoute
   '/verificacao': typeof VerificacaoRoute
   '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
@@ -220,7 +238,9 @@ export interface FileRouteTypes {
     | '/mensagens'
     | '/perfil'
     | '/premium'
+    | '/privacidade'
     | '/seguranca'
+    | '/termos'
     | '/verificacao'
     | '/admin/experiencias'
     | '/admin/login'
@@ -243,7 +263,9 @@ export interface FileRouteTypes {
     | '/mensagens'
     | '/perfil'
     | '/premium'
+    | '/privacidade'
     | '/seguranca'
+    | '/termos'
     | '/verificacao'
     | '/admin/experiencias'
     | '/admin/login'
@@ -266,7 +288,9 @@ export interface FileRouteTypes {
     | '/mensagens'
     | '/perfil'
     | '/premium'
+    | '/privacidade'
     | '/seguranca'
+    | '/termos'
     | '/verificacao'
     | '/admin/experiencias'
     | '/admin/login'
@@ -290,7 +314,9 @@ export interface RootRouteChildren {
   MensagensRoute: typeof MensagensRoute
   PerfilRoute: typeof PerfilRouteWithChildren
   PremiumRoute: typeof PremiumRoute
+  PrivacidadeRoute: typeof PrivacidadeRoute
   SegurancaRoute: typeof SegurancaRoute
+  TermosRoute: typeof TermosRoute
   VerificacaoRoute: typeof VerificacaoRoute
   AdminExperienciasRoute: typeof AdminExperienciasRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -374,11 +400,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PremiumRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidade': {
+      id: '/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/seguranca': {
       id: '/seguranca'
       path: '/seguranca'
       fullPath: '/seguranca'
       preLoaderRoute: typeof SegurancaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/termos': {
+      id: '/termos'
+      path: '/termos'
+      fullPath: '/termos'
+      preLoaderRoute: typeof TermosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/verificacao': {
@@ -476,7 +516,9 @@ const rootRouteChildren: RootRouteChildren = {
   MensagensRoute: MensagensRoute,
   PerfilRoute: PerfilRouteWithChildren,
   PremiumRoute: PremiumRoute,
+  PrivacidadeRoute: PrivacidadeRoute,
   SegurancaRoute: SegurancaRoute,
+  TermosRoute: TermosRoute,
   VerificacaoRoute: VerificacaoRoute,
   AdminExperienciasRoute: AdminExperienciasRoute,
   AdminLoginRoute: AdminLoginRoute,

@@ -90,3 +90,38 @@ export function useSendMessage() {
     },
   });
 }
+
+export function useBlockProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (profileId: string) => {
+      const { error } = await supabase.rpc("block_profile", { p_target_profile_id: profileId });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["matches"] });
+      void queryClient.invalidateQueries({ queryKey: ["discover"] });
+    },
+  });
+}
+
+export function useReportProfile() {
+  return useMutation({
+    mutationFn: async ({
+      profileId,
+      reason,
+      details,
+    }: {
+      profileId: string;
+      reason: string;
+      details?: string;
+    }) => {
+      const { error } = await supabase.rpc("submit_security_report", {
+        p_reported_profile_id: profileId,
+        p_reason: reason,
+        p_details: details ?? "",
+      });
+      if (error) throw error;
+    },
+  });
+}

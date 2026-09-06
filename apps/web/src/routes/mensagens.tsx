@@ -3,7 +3,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AppShell, ScreenIntro, ScreenList, ListRow, IconArrow, IconArrowRight } from "@velora/ui";
 import { RequireMember } from "@/components/auth/require-member";
-import { useMatches, useMatchMessages, useSendMessage } from "@/lib/connections-data";
+import {
+  useMatches,
+  useMatchMessages,
+  useSendMessage,
+  useBlockProfile,
+  useReportProfile,
+} from "@/lib/connections-data";
 import { useOwnProfileId } from "@/lib/member-auth";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +54,11 @@ function MensagensContent() {
     selected?.matchId ?? null,
   );
   const sendMessage = useSendMessage();
+  const blockProfile = useBlockProfile();
+  const reportProfile = useReportProfile();
   const [draft, setDraft] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [reportArmed, setReportArmed] = useState(false);
 
   const openConversation = (matchId: string) => {
     void navigate({ search: { with: matchId } });
@@ -56,6 +66,42 @@ function MensagensContent() {
 
   const closeConversation = () => {
     void navigate({ search: { with: undefined } });
+  };
+
+  const handleBlock = () => {
+    if (!selected) return;
+    blockProfile.mutate(selected.profileId, {
+      onSuccess: () => {
+        toast("Perfil bloqueado", {
+          description: `${selected.name} não poderá mais ver ou contatar você.`,
+        });
+        setMenuOpen(false);
+        closeConversation();
+      },
+      onError: () => toast("Não foi possível bloquear o perfil"),
+    });
+  };
+
+  const handleReport = () => {
+    if (!selected) return;
+    if (!reportArmed) {
+      setReportArmed(true);
+      toast("Toque novamente para confirmar a denúncia");
+      return;
+    }
+    reportProfile.mutate(
+      { profileId: selected.profileId, reason: "Comportamento inadequado" },
+      {
+        onSuccess: () => {
+          toast("Denúncia enviada", {
+            description: "Nossa equipe de confiança fará a análise em até 24h.",
+          });
+          setMenuOpen(false);
+          setReportArmed(false);
+        },
+        onError: () => toast("Não foi possível enviar a denúncia"),
+      },
+    );
   };
 
   const handleSend = () => {
@@ -93,7 +139,44 @@ function MensagensContent() {
               {selected.name.charAt(0)}
             </span>
           )}
-          <p className="text-[15px] text-ivory">{selected.name}</p>
+          <p className="flex-1 text-[15px] text-ivory">{selected.name}</p>
+          <div className="relative">
+            <button
+              type="button"
+              aria-label="Mais opções"
+              onClick={() => {
+                setMenuOpen((v) => !v);
+                setReportArmed(false);
+              }}
+              className="px-2 text-[18px] leading-none text-muted-foreground transition-velora hover:text-champagne"
+            >
+              ⋯
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 top-full z-10 mt-2 w-56 rounded-lg surface-glass p-2 text-left">
+                <button
+                  type="button"
+                  disabled={blockProfile.isPending}
+                  onClick={handleBlock}
+                  className="block w-full rounded-md px-3 py-2 text-[13px] text-destructive transition-velora hover:bg-white/[0.04] disabled:pointer-events-none disabled:opacity-40"
+                >
+                  {blockProfile.isPending ? "Bloqueando…" : "Bloquear perfil"}
+                </button>
+                <button
+                  type="button"
+                  disabled={reportProfile.isPending}
+                  onClick={handleReport}
+                  className="block w-full rounded-md px-3 py-2 text-[13px] text-muted-foreground transition-velora hover:bg-white/[0.04] disabled:pointer-events-none disabled:opacity-40"
+                >
+                  {reportProfile.isPending
+                    ? "Enviando…"
+                    : reportArmed
+                      ? "Toque para confirmar"
+                      : "Denunciar comportamento"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-col gap-3 px-4 py-6 lg:px-10">
