@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { AppShell, ScreenIntro, ScreenList, ListRow, IconArrow, IconArrowRight } from "@velora/ui";
 import { RequireMember } from "@/components/auth/require-member";
-import { initialConversations, type Conversation } from "@/lib/velora-data";
+import { useMatches, useMatchMessages, useSendMessage } from "@/lib/connections-data";
+import { useOwnProfileId } from "@/lib/member-auth";
 import { cn } from "@/lib/utils";
 
 type MensagensSearch = { with?: string | undefined };
@@ -28,11 +30,6 @@ export const Route = createFileRoute("/mensagens")({
   component: Mensagens,
 });
 
-function lastMessagePreview(conversation: Conversation) {
-  const last = conversation.messages[conversation.messages.length - 1];
-  return last ? `"${last.text}"` : "Nenhuma mensagem ainda.";
-}
-
 function Mensagens() {
   return (
     <RequireMember>
@@ -44,38 +41,34 @@ function Mensagens() {
 function MensagensContent() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  const [conversations, setConversations] = useState(initialConversations);
+  const ownProfileId = useOwnProfileId();
+  const { data: matches, isLoading: matchesLoading } = useMatches();
+  const selected = matches?.find((m) => m.matchId === search.with) ?? null;
+  const { data: messages, isLoading: messagesLoading } = useMatchMessages(
+    selected?.matchId ?? null,
+  );
+  const sendMessage = useSendMessage();
   const [draft, setDraft] = useState("");
 
-  const selected = conversations.find((c) => c.id === search.with) ?? null;
-
-  const openConversation = (id: string) => {
-    void navigate({ search: { with: id } });
+  const openConversation = (matchId: string) => {
+    void navigate({ search: { with: matchId } });
   };
 
   const closeConversation = () => {
     void navigate({ search: { with: undefined } });
   };
 
-  const sendMessage = () => {
+  const handleSend = () => {
     const text = draft.trim();
     if (!text || !selected) return;
-    const now = new Date();
-    const time = `${now.getHours().toString().padStart(2, "0")}:${now
-      .getMinutes()
-      .toString()
-      .padStart(2, "0")}`;
-    setConversations((prev) =>
-      prev.map((c) =>
-        c.id === selected.id
-          ? { ...c, messages: [...c.messages, { id: `${Date.now()}`, from: "me", text, time }] }
-          : c,
-      ),
+    sendMessage.mutate(
+      { matchId: selected.matchId, text },
+      { onError: () => toast("Não foi possível enviar a mensagem") },
     );
     setDraft("");
   };
 
-  if (selected) {
+  if (search.with && selected) {
     return (
       <AppShell activeTab="Mensagens" activeBottom="Conexões">
         <div className="flex items-center gap-3 border-b border-border px-4 py-4 lg:px-10">
@@ -87,33 +80,50 @@ function MensagensContent() {
           >
             <IconArrowRight size={18} className="rotate-180" />
           </button>
-          <img
-            src={selected.photo}
-            alt={selected.name}
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full object-cover"
-          />
+          {selected.photoUrl ? (
+            <img
+              src={selected.photoUrl}
+              alt={selected.name}
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-full object-cover"
+            />
+          ) : (
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-charcoal text-[13px] text-champagne">
+              {selected.name.charAt(0)}
+            </span>
+          )}
           <p className="text-[15px] text-ivory">{selected.name}</p>
         </div>
 
         <div className="flex flex-col gap-3 px-4 py-6 lg:px-10">
-          {selected.messages.map((m) => (
-            <div
-              key={m.id}
-              className={cn("flex flex-col", m.from === "me" ? "items-end" : "items-start")}
-            >
-              <p
-                className={cn(
-                  "max-w-[75%] rounded-2xl px-4 py-2.5 text-[14px] leading-relaxed",
-                  m.from === "me" ? "bg-champagne/15 text-ivory" : "surface-glass text-pearl",
-                )}
-              >
-                {m.text}
-              </p>
-              <span className="mt-1 text-[11px] text-muted-foreground">{m.time}</span>
-            </div>
-          ))}
+          {messagesLoading && <p className="text-[13px] text-muted-foreground">Carregando…</p>}
+          {messages?.length === 0 && (
+            <p className="text-[13px] text-muted-foreground">
+              Nenhuma mensagem ainda. Diga oi para {selected.name}.
+            </p>
+          )}
+          {messages?.map((m) => {
+            const isMe = m.senderProfileId === ownProfileId;
+            return (
+              <div key={m.id} className={cn("flex flex-col", isMe ? "items-end" : "items-start")}>
+                <p
+                  className={cn(
+                    "max-w-[75%] rounded-2xl px-4 py-2.5 text-[14px] leading-relaxed",
+                    isMe ? "bg-champagne/15 text-ivory" : "surface-glass text-pearl",
+                  )}
+                >
+                  {m.text}
+                </p>
+                <span className="mt-1 text-[11px] text-muted-foreground">
+                  {new Date(m.createdAt).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mx-4 mb-4 rounded-lg hairline-champagne p-4 text-[13px] leading-relaxed text-pearl/80 lg:mx-10">
@@ -124,7 +134,7 @@ function MensagensContent() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            sendMessage();
+            handleSend();
           }}
           className="mt-auto flex items-center gap-3 border-t border-border px-4 py-4 lg:px-10"
         >
@@ -136,7 +146,7 @@ function MensagensContent() {
           />
           <button
             type="submit"
-            disabled={!draft.trim()}
+            disabled={!draft.trim() || sendMessage.isPending}
             aria-label="Enviar"
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-champagne text-champagne transition-velora hover:bg-champagne/10 disabled:pointer-events-none disabled:opacity-30"
           >
@@ -154,15 +164,27 @@ function MensagensContent() {
         title="Mensagens"
         description="Conversas visíveis apenas para vocês dois. Você pode encerrar ou bloquear a qualquer momento."
       />
+
+      {matchesLoading && <p className="px-6 text-[13px] text-muted-foreground">Carregando…</p>}
+      {!matchesLoading && matches?.length === 0 && (
+        <p className="px-6 text-[13px] text-muted-foreground">
+          Nenhuma conversa ainda. Suas conexões aparecem aqui.
+        </p>
+      )}
+
       <ScreenList>
-        {conversations.map((c) => (
+        {matches?.map((match) => (
           <button
-            key={c.id}
+            key={match.matchId}
             type="button"
-            onClick={() => openConversation(c.id)}
+            onClick={() => openConversation(match.matchId)}
             className="text-left"
           >
-            <ListRow photo={c.photo} title={c.name} meta={lastMessagePreview(c)} />
+            <ListRow
+              photo={match.photoUrl ?? undefined}
+              title={match.name}
+              meta={`Conexão em ${new Date(match.matchedAt).toLocaleDateString("pt-BR")}`}
+            />
           </button>
         ))}
       </ScreenList>

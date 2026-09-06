@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppShell, ScreenIntro, ScreenList, ListRow, MembershipBadge } from "@velora/ui";
+import { AppShell, ScreenIntro, ScreenList, ListRow } from "@velora/ui";
 import { RequireMember } from "@/components/auth/require-member";
-import { connections } from "@/lib/velora-data";
+import { useMatches } from "@/lib/connections-data";
 
 export const Route = createFileRoute("/conexoes")({
   head: () => ({
@@ -23,26 +23,46 @@ export const Route = createFileRoute("/conexoes")({
 function Conexoes() {
   return (
     <RequireMember>
-      <AppShell activeTab="Conexões" activeBottom="Conexões">
-        <ScreenIntro
-          eyebrow="Interesse recíproco"
-          title="Suas conexões"
-          description="Só aparecem aqui as pessoas que demonstraram interesse mútuo. Nada é público."
-        />
-        <ScreenList>
-          {connections.map((connection) => (
-            <ListRow
-              key={connection.id}
-              to="/mensagens"
-              search={{ with: connection.id }}
-              photo={connection.photo}
-              title={`${connection.name}, ${connection.age}`}
-              meta={connection.meta}
-              trailing={connection.isNew ? <MembershipBadge label="Nova" /> : undefined}
-            />
-          ))}
-        </ScreenList>
-      </AppShell>
+      <ConexoesContent />
     </RequireMember>
+  );
+}
+
+function ConexoesContent() {
+  const { data: matches, isLoading, isError } = useMatches();
+
+  return (
+    <AppShell activeTab="Conexões" activeBottom="Conexões">
+      <ScreenIntro
+        eyebrow="Interesse recíproco"
+        title="Suas conexões"
+        description="Só aparecem aqui as pessoas que demonstraram interesse mútuo. Nada é público."
+      />
+
+      {isLoading && <p className="px-6 text-[13px] text-muted-foreground">Carregando conexões…</p>}
+      {isError && (
+        <p className="px-6 text-[13px] text-destructive">
+          Não foi possível carregar suas conexões.
+        </p>
+      )}
+      {!isLoading && !isError && matches?.length === 0 && (
+        <p className="px-6 text-[13px] text-muted-foreground">
+          Nenhuma conexão ainda. Demonstre interesse no Descobrir para começar.
+        </p>
+      )}
+
+      <ScreenList>
+        {matches?.map((match) => (
+          <ListRow
+            key={match.matchId}
+            to="/mensagens"
+            search={{ with: match.matchId }}
+            photo={match.photoUrl ?? undefined}
+            title={`${match.name}, ${match.age}`}
+            meta={`Conexão em ${new Date(match.matchedAt).toLocaleDateString("pt-BR")} · ${match.city}`}
+          />
+        ))}
+      </ScreenList>
+    </AppShell>
   );
 }

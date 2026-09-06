@@ -40,14 +40,34 @@ export type OwnProfile = {
   city: string;
   bio: string | null;
   interests: string[];
+  photoUrl: string | null;
+  verified: boolean;
 };
 
 export async function getOwnProfile(): Promise<OwnProfile | null> {
   const { data } = await supabase
     .from("member_profiles")
-    .select("id, name, age, city, bio, interests")
+    .select("id, name, age, city, bio, interests, photo_url, verified")
     .maybeSingle();
-  return data;
+  if (!data) return null;
+  return {
+    id: data.id,
+    name: data.name,
+    age: data.age,
+    city: data.city,
+    bio: data.bio,
+    interests: data.interests,
+    photoUrl: data.photo_url,
+    verified: data.verified,
+  };
+}
+
+export function useOwnProfileId(): string | null {
+  const [id, setId] = useState<string | null>(null);
+  useEffect(() => {
+    void getOwnProfile().then((p) => setId(p?.id ?? null));
+  }, []);
+  return id;
 }
 
 export async function updateOwnProfileDetails(
@@ -59,6 +79,30 @@ export async function updateOwnProfileDetails(
     p_interests: interests,
   });
   if (error) return error.message;
+  return null;
+}
+
+/** Envia a foto pro Storage (pasta = uid do usuário) e grava a URL pública no perfil. */
+export async function uploadOwnPhoto(file: File): Promise<string | null> {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user) return userError?.message ?? "Não autenticado.";
+
+  const extension = file.name.split(".").pop() ?? "jpg";
+  const path = `${userData.user.id}/photo.${extension}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("profile-photos")
+    .upload(path, file, { upsert: true, contentType: file.type });
+  if (uploadError) return uploadError.message;
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("profile-photos").getPublicUrl(path);
+
+  const { error: rpcError } = await supabase.rpc("update_own_photo", {
+    p_photo_url: `${publicUrl}?v=${Date.now()}`,
+  });
+  if (rpcError) return rpcError.message;
   return null;
 }
 
