@@ -20,6 +20,10 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Env vars (crie um .env local com VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY)
+.env
+.env.*
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
