@@ -33,6 +33,35 @@ export async function completeSignupProfile(
   return null;
 }
 
+export type OwnProfile = {
+  id: string;
+  name: string;
+  age: number;
+  city: string;
+  bio: string | null;
+  interests: string[];
+};
+
+export async function getOwnProfile(): Promise<OwnProfile | null> {
+  const { data } = await supabase
+    .from("member_profiles")
+    .select("id, name, age, city, bio, interests")
+    .maybeSingle();
+  return data;
+}
+
+export async function updateOwnProfileDetails(
+  bio: string,
+  interests: string[],
+): Promise<string | null> {
+  const { error } = await supabase.rpc("update_own_profile_details", {
+    p_bio: bio,
+    p_interests: interests,
+  });
+  if (error) return error.message;
+  return null;
+}
+
 export type MemberVerificationStatus = "pendente" | "aprovada" | "rejeitada";
 
 export async function requestIdentityVerification(): Promise<string | null> {

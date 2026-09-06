@@ -3,54 +3,6 @@ import rafael from "@/assets/profile-rafael.jpg";
 import marina from "@/assets/profile-juliana.jpg";
 import lounge from "@/assets/experience-lounge.jpg";
 
-export type DiscoverProfile = {
-  id: string;
-  name: string;
-  age: number;
-  distanceKm: number;
-  interests: string[];
-  bio: string;
-  about: string;
-  photo: string;
-  photoCount: number;
-};
-
-export const discoverProfiles: DiscoverProfile[] = [
-  {
-    id: "juliana",
-    name: "Juliana",
-    age: 29,
-    distanceKm: 3,
-    interests: ["Gastronomia", "Viagens", "Música", "Academia"],
-    bio: "Apaixonada por bons vinhos, viagens e conversas profundas.",
-    about: "Trabalha com arquitetura, já visitou 22 países e adora um bom jantar em silêncio.",
-    photo: juliana,
-    photoCount: 5,
-  },
-  {
-    id: "rafael",
-    name: "Rafael",
-    age: 34,
-    distanceKm: 6,
-    interests: ["Vinhos", "Golfe", "Arte", "Negócios"],
-    bio: "Sócio de uma gestora de investimentos. Fim de semana é vela e vinho.",
-    about: "Colecionador de arte contemporânea, prefere encontros discretos em lugares pequenos.",
-    photo: rafael,
-    photoCount: 4,
-  },
-  {
-    id: "marina",
-    name: "Marina",
-    age: 31,
-    distanceKm: 9,
-    interests: ["Literatura", "Yoga", "Design", "Viagens"],
-    bio: "Designer, leitora compulsiva e sempre com uma viagem planejada.",
-    about: "Estudou em Milão, fala três idiomas e prefere jantares a festas.",
-    photo: marina,
-    photoCount: 6,
-  },
-];
-
 export type Connection = {
   id: string;
   name: string;

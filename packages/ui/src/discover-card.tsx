@@ -3,17 +3,20 @@ import { cn } from "./utils";
 import { IconPin, IconInfo, ShieldCheck, VerifiedSeal } from "./icons-nav";
 
 export type DiscoverProfile = {
-  photo: string;
+  photo?: string | undefined;
   name: string;
   age: number;
-  distanceKm: number;
-  interests: string[];
-  bio: string;
-  photoCount: number;
+  distanceKm?: number | undefined;
+  city?: string | undefined;
+  interests?: string[] | undefined;
+  bio?: string | undefined;
+  photoCount?: number | undefined;
+  verified?: boolean | undefined;
 };
 
 /**
  * DiscoverCard — a fotografia domina; identidade, informação e ação sobre o gradiente.
+ * Sem foto (perfis reais ainda sem upload), cai para um monograma discreto.
  */
 export function DiscoverCard({
   profile,
@@ -23,30 +26,45 @@ export function DiscoverCard({
   onAbout?: (() => void) | undefined;
 }) {
   const [photoIndex] = useState(0);
+  const verified = profile.verified ?? true;
+  const interests = profile.interests ?? [];
+  const photoCount = profile.photoCount ?? 1;
 
   return (
     <article className="relative aspect-[9/15.2] w-full overflow-hidden rounded-2xl border border-border bg-graphite">
-      <img
-        src={profile.photo}
-        alt={`${profile.name}, ${profile.age}`}
-        width={900}
-        height={1300}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {profile.photo ? (
+        <img
+          src={profile.photo}
+          alt={`${profile.name}, ${profile.age}`}
+          width={900}
+          height={1300}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-charcoal">
+          <span className="font-display text-8xl text-champagne/40">
+            {profile.name.charAt(0)}
+          </span>
+        </div>
+      )}
       <div className="absolute inset-0 scrim-bottom" />
 
       {/* Identidade */}
       <div className="absolute inset-x-0 top-0 flex items-start justify-between p-4">
-        <div className="flex items-center gap-2">
-          <ShieldCheck size={30} className="text-champagne" />
-          <span className="max-w-[7.5rem] text-[13px] font-medium leading-tight text-ivory">
-            Identidade verificada
+        {verified && (
+          <div className="flex items-center gap-2">
+            <ShieldCheck size={30} className="text-champagne" />
+            <span className="max-w-[7.5rem] text-[13px] font-medium leading-tight text-ivory">
+              Identidade verificada
+            </span>
+          </div>
+        )}
+        {(profile.distanceKm != null || profile.city) && (
+          <span className="ml-auto inline-flex items-center gap-1.5 rounded-full surface-glass px-3 py-1.5 text-[13px] text-ivory">
+            <IconPin size={15} className="text-champagne" />
+            {profile.distanceKm != null ? `${profile.distanceKm} km` : profile.city}
           </span>
-        </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full surface-glass px-3 py-1.5 text-[13px] text-ivory">
-          <IconPin size={15} className="text-champagne" />
-          {profile.distanceKm} km
-        </span>
+        )}
       </div>
 
       {/* Informação + ação secundária */}
@@ -55,22 +73,26 @@ export function DiscoverCard({
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 text-[2rem] font-semibold leading-none text-ivory">
               {profile.name}, <span className="font-light text-ivory/90">{profile.age}</span>
-              <VerifiedSeal size={20} className="text-champagne" />
+              {verified && <VerifiedSeal size={20} className="text-champagne" />}
             </h2>
 
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {profile.interests.map((tag, i) => (
-                <li
-                  key={tag}
-                  className="inline-flex items-center gap-1.5 rounded-full surface-glass px-3 py-1.5 text-[12.5px] text-pearl"
-                >
-                  {i !== 2 && <span className="h-1 w-1 rounded-full bg-champagne" />}
-                  {tag}
-                </li>
-              ))}
-            </ul>
+            {interests.length > 0 && (
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {interests.map((tag, i) => (
+                  <li
+                    key={tag}
+                    className="inline-flex items-center gap-1.5 rounded-full surface-glass px-3 py-1.5 text-[12.5px] text-pearl"
+                  >
+                    {i !== 2 && <span className="h-1 w-1 rounded-full bg-champagne" />}
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            )}
 
-            <p className="mt-3 text-[14px] leading-snug text-pearl/85">{profile.bio}</p>
+            {profile.bio && (
+              <p className="mt-3 text-[14px] leading-snug text-pearl/85">{profile.bio}</p>
+            )}
           </div>
 
           <button
@@ -84,17 +106,19 @@ export function DiscoverCard({
         </div>
 
         {/* Indicador de fotos */}
-        <div className="mt-5 flex items-center justify-center gap-1.5">
-          {Array.from({ length: profile.photoCount }).map((_, i) => (
-            <span
-              key={i}
-              className={cn(
-                "h-[3px] rounded-full transition-velora",
-                i === photoIndex ? "w-8 bg-champagne" : "w-6 bg-ivory/20",
-              )}
-            />
-          ))}
-        </div>
+        {photoCount > 1 && (
+          <div className="mt-5 flex items-center justify-center gap-1.5">
+            {Array.from({ length: photoCount }).map((_, i) => (
+              <span
+                key={i}
+                className={cn(
+                  "h-[3px] rounded-full transition-velora",
+                  i === photoIndex ? "w-8 bg-champagne" : "w-6 bg-ivory/20",
+                )}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );

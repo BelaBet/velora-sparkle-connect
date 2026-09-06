@@ -22,7 +22,7 @@ export const Route = createFileRoute("/perfil")({
 });
 
 const itens = [
-  { label: "Fotos e apresentação", to: "/perfil" },
+  { label: "Bio e interesses", to: "/perfil/editar" },
   { label: "Verificação de identidade", to: "/verificacao" },
   { label: "Preferências de descoberta", to: "/" },
   { label: "Privacidade e discrição", to: "/seguranca" },

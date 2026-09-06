@@ -28,6 +28,7 @@ import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
 import { Route as AdminVerificacoesRouteImport } from './routes/admin/verificacoes'
 import { Route as MfaConfigurarRouteImport } from './routes/mfa/configurar'
 import { Route as MfaVerificarRouteImport } from './routes/mfa/verificar'
+import { Route as PerfilEditarRouteImport } from './routes/perfil/editar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +125,11 @@ const MfaVerificarRoute = MfaVerificarRouteImport.update({
   path: '/mfa/verificar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PerfilEditarRoute = PerfilEditarRouteImport.update({
+  id: '/editar',
+  path: '/editar',
+  getParentRoute: () => PerfilRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -134,7 +140,7 @@ export interface FileRoutesByFullPath {
   '/experiencias': typeof ExperienciasRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
-  '/perfil': typeof PerfilRoute
+  '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/admin/verificacoes': typeof AdminVerificacoesRoute
   '/mfa/configurar': typeof MfaConfigurarRoute
   '/mfa/verificar': typeof MfaVerificarRoute
+  '/perfil/editar': typeof PerfilEditarRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -155,7 +162,7 @@ export interface FileRoutesByTo {
   '/experiencias': typeof ExperienciasRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
-  '/perfil': typeof PerfilRoute
+  '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/admin/verificacoes': typeof AdminVerificacoesRoute
   '/mfa/configurar': typeof MfaConfigurarRoute
   '/mfa/verificar': typeof MfaVerificarRoute
+  '/perfil/editar': typeof PerfilEditarRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -177,7 +185,7 @@ export interface FileRoutesById {
   '/experiencias': typeof ExperienciasRoute
   '/login': typeof LoginRoute
   '/mensagens': typeof MensagensRoute
-  '/perfil': typeof PerfilRoute
+  '/perfil': typeof PerfilRouteWithChildren
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/admin/verificacoes': typeof AdminVerificacoesRoute
   '/mfa/configurar': typeof MfaConfigurarRoute
   '/mfa/verificar': typeof MfaVerificarRoute
+  '/perfil/editar': typeof PerfilEditarRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -210,6 +219,7 @@ export interface FileRouteTypes {
     | '/admin/verificacoes'
     | '/mfa/configurar'
     | '/mfa/verificar'
+    | '/perfil/editar'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/admin/verificacoes'
     | '/mfa/configurar'
     | '/mfa/verificar'
+    | '/perfil/editar'
     | '/admin'
   id:
     | '__root__'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/admin/verificacoes'
     | '/mfa/configurar'
     | '/mfa/verificar'
+    | '/perfil/editar'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -264,7 +276,7 @@ export interface RootRouteChildren {
   ExperienciasRoute: typeof ExperienciasRoute
   LoginRoute: typeof LoginRoute
   MensagensRoute: typeof MensagensRoute
-  PerfilRoute: typeof PerfilRoute
+  PerfilRoute: typeof PerfilRouteWithChildren
   PremiumRoute: typeof PremiumRoute
   SegurancaRoute: typeof SegurancaRoute
   VerificacaoRoute: typeof VerificacaoRoute
@@ -412,8 +424,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MfaVerificarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/perfil/editar': {
+      id: '/perfil/editar'
+      path: '/editar'
+      fullPath: '/perfil/editar'
+      preLoaderRoute: typeof PerfilEditarRouteImport
+      parentRoute: typeof PerfilRoute
+    }
   }
 }
+
+interface PerfilRouteChildren {
+  PerfilEditarRoute: typeof PerfilEditarRoute
+}
+
+const PerfilRouteChildren: PerfilRouteChildren = {
+  PerfilEditarRoute: PerfilEditarRoute,
+}
+
+const PerfilRouteWithChildren =
+  PerfilRoute._addFileChildren(PerfilRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -424,7 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExperienciasRoute: ExperienciasRoute,
   LoginRoute: LoginRoute,
   MensagensRoute: MensagensRoute,
-  PerfilRoute: PerfilRoute,
+  PerfilRoute: PerfilRouteWithChildren,
   PremiumRoute: PremiumRoute,
   SegurancaRoute: SegurancaRoute,
   VerificacaoRoute: VerificacaoRoute,
