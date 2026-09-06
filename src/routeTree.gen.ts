@@ -17,6 +17,11 @@ import { Route as MensagensRouteImport } from './routes/mensagens'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as SegurancaRouteImport } from './routes/seguranca'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminPerfisRouteImport } from './routes/admin/perfis'
+import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
+import { Route as AdminVerificacoesRouteImport } from './routes/admin/verificacoes'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +63,31 @@ const SegurancaRoute = SegurancaRouteImport.update({
   path: '/seguranca',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPerfisRoute = AdminPerfisRouteImport.update({
+  id: '/admin/perfis',
+  path: '/admin/perfis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRelatoriosRoute = AdminRelatoriosRouteImport.update({
+  id: '/admin/relatorios',
+  path: '/admin/relatorios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminVerificacoesRoute = AdminVerificacoesRouteImport.update({
+  id: '/admin/verificacoes',
+  path: '/admin/verificacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +98,11 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/perfis': typeof AdminPerfisRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +113,11 @@ export interface FileRoutesByTo {
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/perfis': typeof AdminPerfisRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +129,11 @@ export interface FileRoutesById {
   '/perfil': typeof PerfilRoute
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/perfis': typeof AdminPerfisRoute
+  '/admin/relatorios': typeof AdminRelatoriosRoute
+  '/admin/verificacoes': typeof AdminVerificacoesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +146,11 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/admin/login'
+    | '/admin/perfis'
+    | '/admin/relatorios'
+    | '/admin/verificacoes'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +161,11 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/admin/login'
+    | '/admin/perfis'
+    | '/admin/relatorios'
+    | '/admin/verificacoes'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -121,6 +176,11 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/premium'
     | '/seguranca'
+    | '/admin/login'
+    | '/admin/perfis'
+    | '/admin/relatorios'
+    | '/admin/verificacoes'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +192,11 @@ export interface RootRouteChildren {
   PerfilRoute: typeof PerfilRoute
   PremiumRoute: typeof PremiumRoute
   SegurancaRoute: typeof SegurancaRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminPerfisRoute: typeof AdminPerfisRoute
+  AdminRelatoriosRoute: typeof AdminRelatoriosRoute
+  AdminVerificacoesRoute: typeof AdminVerificacoesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +257,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SegurancaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/perfis': {
+      id: '/admin/perfis'
+      path: '/admin/perfis'
+      fullPath: '/admin/perfis'
+      preLoaderRoute: typeof AdminPerfisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/relatorios': {
+      id: '/admin/relatorios'
+      path: '/admin/relatorios'
+      fullPath: '/admin/relatorios'
+      preLoaderRoute: typeof AdminRelatoriosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/verificacoes': {
+      id: '/admin/verificacoes'
+      path: '/admin/verificacoes'
+      fullPath: '/admin/verificacoes'
+      preLoaderRoute: typeof AdminVerificacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +304,11 @@ const rootRouteChildren: RootRouteChildren = {
   PerfilRoute: PerfilRoute,
   PremiumRoute: PremiumRoute,
   SegurancaRoute: SegurancaRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminPerfisRoute: AdminPerfisRoute,
+  AdminRelatoriosRoute: AdminRelatoriosRoute,
+  AdminVerificacoesRoute: AdminVerificacoesRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
