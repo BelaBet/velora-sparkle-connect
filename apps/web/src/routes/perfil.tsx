@@ -1,8 +1,8 @@
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppShell, VerifiedBadge, LivenessBadge, MembershipBadge, IconArrow } from "@velora/ui";
 import { RequireMember } from "@/components/auth/require-member";
-import { signOutMember } from "@/lib/member-auth";
-import juliana from "@/assets/discover-juliana.jpg";
+import { signOutMember, getOwnProfile, type OwnProfile } from "@/lib/member-auth";
 
 export const Route = createFileRoute("/perfil")({
   head: () => ({
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/perfil")({
 });
 
 const itens = [
-  { label: "Bio e interesses", to: "/perfil/editar" },
+  { label: "Fotos e apresentação", to: "/perfil/editar" },
   { label: "Verificação de identidade", to: "/verificacao" },
   { label: "Preferências de descoberta", to: "/" },
   { label: "Privacidade e discrição", to: "/seguranca" },
@@ -39,23 +39,44 @@ function Perfil() {
 
 function PerfilContent() {
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<OwnProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    void getOwnProfile().then((p) => {
+      setProfile(p);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <AppShell activeTab="Descobrir" activeBottom="Perfil">
-      <div className="relative aspect-[9/9] w-full overflow-hidden">
-        <img
-          src={juliana}
-          alt="Sua foto principal"
-          width={900}
-          height={1300}
-          className="absolute inset-0 h-full w-full object-cover object-top"
-        />
+      <div className="relative aspect-[9/9] w-full overflow-hidden bg-charcoal">
+        {profile?.photoUrl ? (
+          <img
+            src={profile.photoUrl}
+            alt="Sua foto principal"
+            width={900}
+            height={1300}
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          />
+        ) : (
+          !loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="font-display text-8xl text-champagne/40">
+                {profile?.name.charAt(0)}
+              </span>
+            </div>
+          )
+        )}
         <div className="absolute inset-0 scrim-bottom" />
         <div className="absolute inset-x-0 bottom-0 space-y-3 p-6">
           <MembershipBadge />
-          <h1 className="font-display text-4xl text-ivory">Juliana, 29</h1>
+          <h1 className="font-display text-4xl text-ivory">
+            {loading ? "…" : profile ? `${profile.name}, ${profile.age}` : "Meu perfil"}
+          </h1>
           <div className="flex flex-wrap gap-2">
-            <VerifiedBadge />
+            {profile?.verified && <VerifiedBadge />}
             <LivenessBadge />
           </div>
         </div>

@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AppShell, DiscoverCard, DiscoverActions, GhostAction } from "@velora/ui";
 import { RequireMember } from "@/components/auth/require-member";
-import { useDiscoverProfiles } from "@/lib/discover-data";
+import { useDiscoverProfiles, useExpressInterest } from "@/lib/discover-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,6 +36,7 @@ function Descobrir() {
 
 function DescobrirContent() {
   const { data: profiles, isLoading, isError, refetch } = useDiscoverProfiles();
+  const expressInterest = useExpressInterest();
   const [index, setIndex] = useState(0);
   const profile = profiles?.[index];
   const done = !isLoading && (!profiles || index >= profiles.length);
@@ -56,7 +57,11 @@ function DescobrirContent() {
           </div>
         ) : profile ? (
           <DiscoverCard
-            profile={{ ...profile, bio: profile.bio ?? undefined }}
+            profile={{
+              ...profile,
+              bio: profile.bio ?? undefined,
+              photo: profile.photoUrl ?? undefined,
+            }}
             onAbout={() =>
               toast(`${profile.name}, ${profile.age}`, {
                 description: profile.bio ?? "Ainda não escreveu uma bio.",
@@ -81,9 +86,21 @@ function DescobrirContent() {
           advance();
         }}
         onInterest={() => {
-          if (done) return;
-          toast("Interesse enviado", {
-            description: `${profile!.name} será avisada se o interesse for recíproco.`,
+          if (done || !profile) return;
+          const targetName = profile.name;
+          expressInterest.mutate(profile.id, {
+            onSuccess: (result) => {
+              if (result.matched) {
+                toast("É uma conexão!", {
+                  description: `Você e ${targetName} demonstraram interesse mútuo.`,
+                });
+              } else {
+                toast("Interesse enviado", {
+                  description: `${targetName} será avisada se o interesse for recíproco.`,
+                });
+              }
+            },
+            onError: () => toast("Não foi possível enviar o interesse"),
           });
           advance();
         }}
