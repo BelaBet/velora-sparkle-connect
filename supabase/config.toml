@@ -1,0 +1,4 @@
+# Vincula este diretório ao projeto Supabase da Velora ("Veloria").
+# Use `supabase link --project-ref odfdcdpwgbdhguntmsid` antes de rodar
+# `supabase db push` / `supabase db pull` pela primeira vez.
+project_id = "odfdcdpwgbdhguntmsid"
