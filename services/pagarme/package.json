@@ -1,0 +1,22 @@
+{
+  "name": "stone-split-service",
+  "version": "0.2.0",
+  "description": "Integração Stone/Pagar.me com split de pagamento, no modelo de taxas da Hotmart — serviço único pra reusar em todos os seus projetos.",
+  "main": "src/charge-with-split.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/server.js",
+    "dev": "tsc --watch & node --watch dist/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.7.5",
+    "@types/express": "^4.17.21"
+  }
+}
