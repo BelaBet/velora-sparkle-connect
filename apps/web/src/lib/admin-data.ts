@@ -283,11 +283,21 @@ export function useDeleteExperience() {
   });
 }
 
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5 MB — mesmo limite configurado no bucket
+const ALLOWED_PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 /** Envia a foto pro Storage e grava a URL pública na experiência. */
 export async function uploadExperiencePhoto(
   experienceId: string,
   file: File,
 ): Promise<string | null> {
+  if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+    return "Use uma foto em JPEG, PNG ou WEBP.";
+  }
+  if (file.size > MAX_PHOTO_BYTES) {
+    return "A foto precisa ter no máximo 5 MB.";
+  }
+
   const extension = file.name.split(".").pop() ?? "jpg";
   const path = `${experienceId}/photo.${extension}`;
 
