@@ -22,6 +22,7 @@ import { Route as PremiumRouteImport } from './routes/premium'
 import { Route as SegurancaRouteImport } from './routes/seguranca'
 import { Route as VerificacaoRouteImport } from './routes/verificacao'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminExperienciasRouteImport } from './routes/admin/experiencias'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminPerfisRouteImport } from './routes/admin/perfis'
 import { Route as AdminRelatoriosRouteImport } from './routes/admin/relatorios'
@@ -95,6 +96,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminExperienciasRoute = AdminExperienciasRouteImport.update({
+  id: '/admin/experiencias',
+  path: '/admin/experiencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
+  '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
+  '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/premium': typeof PremiumRoute
   '/seguranca': typeof SegurancaRoute
   '/verificacao': typeof VerificacaoRoute
+  '/admin/experiencias': typeof AdminExperienciasRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/perfis': typeof AdminPerfisRoute
   '/admin/relatorios': typeof AdminRelatoriosRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/premium'
     | '/seguranca'
     | '/verificacao'
+    | '/admin/experiencias'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/premium'
     | '/seguranca'
     | '/verificacao'
+    | '/admin/experiencias'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/premium'
     | '/seguranca'
     | '/verificacao'
+    | '/admin/experiencias'
     | '/admin/login'
     | '/admin/perfis'
     | '/admin/relatorios'
@@ -280,6 +292,7 @@ export interface RootRouteChildren {
   PremiumRoute: typeof PremiumRoute
   SegurancaRoute: typeof SegurancaRoute
   VerificacaoRoute: typeof VerificacaoRoute
+  AdminExperienciasRoute: typeof AdminExperienciasRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminPerfisRoute: typeof AdminPerfisRoute
   AdminRelatoriosRoute: typeof AdminRelatoriosRoute
@@ -382,6 +395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/experiencias': {
+      id: '/admin/experiencias'
+      path: '/admin/experiencias'
+      fullPath: '/admin/experiencias'
+      preLoaderRoute: typeof AdminExperienciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
@@ -458,6 +478,7 @@ const rootRouteChildren: RootRouteChildren = {
   PremiumRoute: PremiumRoute,
   SegurancaRoute: SegurancaRoute,
   VerificacaoRoute: VerificacaoRoute,
+  AdminExperienciasRoute: AdminExperienciasRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminPerfisRoute: AdminPerfisRoute,
   AdminRelatoriosRoute: AdminRelatoriosRoute,

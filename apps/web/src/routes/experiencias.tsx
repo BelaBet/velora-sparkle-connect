@@ -63,7 +63,7 @@ function ExperienciasContent() {
         {experiences?.map((exp) => (
           <ExperienceCard
             key={exp.id}
-            image={lounge}
+            image={exp.imageUrl ?? lounge}
             title={exp.title}
             venue={exp.venue}
             city={exp.city}
