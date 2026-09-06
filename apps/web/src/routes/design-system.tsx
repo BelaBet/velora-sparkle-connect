@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RequireAdmin } from "@/components/admin/require-admin";
 import {
   ProfileCard,
   ExperienceCard,
@@ -39,10 +40,19 @@ export const Route = createFileRoute("/design-system")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "robots", content: "noindex" },
     ],
   }),
-  component: Index,
+  component: DesignSystemRoute,
 });
+
+function DesignSystemRoute() {
+  return (
+    <RequireAdmin>
+      <Index />
+    </RequireAdmin>
+  );
+}
 
 const swatches = [
   { name: "Obsidian", hex: "#090909", cls: "bg-obsidian" },

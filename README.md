@@ -684,6 +684,8 @@ velora/
 ├── packages/
 │   ├── ui/                → Velora UI — componentes visuais reutilizáveis
 │   └── design-tokens/     → cores, tipografia, espaçamento, motion (CSS)
+├── services/
+│   └── pagarme/           → serviço standalone de pagamento (Stone/Pagar.me)
 └── supabase/
     └── migrations/        → schema versionado do backend
 ```

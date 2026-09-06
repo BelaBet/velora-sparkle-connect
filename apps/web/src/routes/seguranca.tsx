@@ -51,26 +51,6 @@ const acoes = [
         description: "Seu contato de emergência foi avisado com sua localização atual.",
       }),
   },
-  {
-    id: "bloquear",
-    title: "Bloquear perfil",
-    meta: "O bloqueio é imediato, silencioso e definitivo.",
-    confirmTwice: false,
-    onConfirm: () =>
-      toast("Perfil bloqueado", {
-        description: "Essa pessoa não poderá mais ver ou contatar você.",
-      }),
-  },
-  {
-    id: "denunciar",
-    title: "Denunciar comportamento",
-    meta: "Análise humana em até 24 horas.",
-    confirmTwice: false,
-    onConfirm: () =>
-      toast("Denúncia enviada", {
-        description: "Nossa equipe de confiança fará a análise em até 24h.",
-      }),
-  },
 ];
 
 function Seguranca() {
@@ -119,6 +99,10 @@ function Seguranca() {
             );
           })}
         </div>
+        <p className="px-6 pb-8 text-[13px] leading-relaxed text-muted-foreground">
+          Bloquear ou denunciar alguém? Abra a conversa com essa pessoa em Mensagens e use o menu
+          "⋯" no topo — o bloqueio é imediato e a denúncia vai direto para a equipe de confiança.
+        </p>
       </AppShell>
     </RequireMember>
   );

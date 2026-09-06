@@ -23,12 +23,17 @@ function Cadastro() {
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!acceptedTerms) {
+      setError("É preciso aceitar os Termos de Uso e a Política de Privacidade.");
+      return;
+    }
     setLoading(true);
     setError(null);
 
@@ -151,11 +156,32 @@ function Cadastro() {
             />
           </label>
 
+          <label className="flex items-start gap-2.5 text-[13px] leading-relaxed text-muted-foreground">
+            <input
+              type="checkbox"
+              required
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-champagne"
+            />
+            <span>
+              Li e concordo com os{" "}
+              <Link to="/termos" target="_blank" className="text-champagne hover:underline">
+                Termos de Uso
+              </Link>{" "}
+              e a{" "}
+              <Link to="/privacidade" target="_blank" className="text-champagne hover:underline">
+                Política de Privacidade
+              </Link>{" "}
+              da Velora.
+            </span>
+          </label>
+
           {error && <p className="text-[13px] text-destructive">{error}</p>}
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !acceptedTerms}
             className="mt-2 rounded-full border border-champagne py-2.5 text-[13px] uppercase tracking-[0.14em] text-champagne transition-velora hover:bg-champagne/10 disabled:pointer-events-none disabled:opacity-40"
           >
             {loading ? "Criando conta…" : "Criar conta"}
